@@ -1,0 +1,54 @@
+body {
+  margin: 0 auto;
+  background: #5d5d5d;
+}
+
+.textarea {
+  display: block;
+  height: 40vh;
+  width: calc(100% - 100px);
+  margin: 2% auto;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border: 2px solid #8a31e4;
+  border-radius: 1rem;
+  color: #000000;
+  outline: none;
+  resize: none;
+}
+
+.keyboard {
+  height: 45vh;
+  width: calc(100% - 100px);
+  background: #8161bf;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+
+.lineOfkeys {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% / 5);
+  width: 100%;
+}
+
+.key {
+  font-family: 'Montserrat', sans-serif;
+  width: calc(100% / 15);
+  border: 2px solid #312c2c;
+  border-radius: 10%;
+  margin: 0.4rem;
+  padding: 2%;
+  text-transform: capitalize;
+  font-size: 1em;
+  text-align: center;
+  cursor: pointer;
+  background: #312c2c;
+  color: #fff;
+}
+
+.key:hover {
+  opacity: 0.6;
+  border-color: inherit;
+}
