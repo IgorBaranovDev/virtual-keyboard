@@ -47,6 +47,10 @@ body {
   color: #fff;
 }
 
+#ArrowUp {
+  background: url();
+}
+
 .key:hover {
   opacity: 0.6;
   border-color: inherit;
