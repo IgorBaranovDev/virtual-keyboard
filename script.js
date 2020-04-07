@@ -325,6 +325,18 @@ function createButtons(key) {
   button.classList.add('key');
   button.id = key;
   button.innerText = key;
+  if (key === 'Space') button.id = 'space';
+  if (key === 'Ctrl') button.id = 'Control';
+  if (key === 'CapsLock') button.id = 'CapsLock';
+  button.innerText = key;
+  if (
+    key === 'ArrowUp' ||
+    key === 'ArrowLeft' ||
+    key === 'ArrowDown' ||
+    key === 'ArrowRight'
+  )
+    button.innerHTML = '';
+  if (key === 'Space') button.innerHTML = ' ___ ';
   button.addEventListener('mousedown', (event) => {
     event.key = event.target.id;
     keyPress(event);
@@ -338,11 +350,15 @@ function createButtons(key) {
 
 function keyPress(event) {
   if (event.code === 'ShiftLeft') {
+    event.preventDefault();
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
     shiftFlag = true;
     return;
   }
 
   if (event.code === 'AltLeft' && shiftFlag === true) {
+    event.preventDefault();
+
     if (localStorage.language === 'eng') {
       console.log('change');
       localStorage.language = 'ru';
@@ -354,12 +370,17 @@ function keyPress(event) {
   }
 
   if (event.code === 'AltLeft') {
+    event.preventDefault();
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
     altLeftFlag = true;
     return;
   }
 
   if (event.code === 'ShiftLeft' && altLeftFlag === true) {
+    event.preventDefault();
+
     if (localStorage.language === 'eng') {
+      console.log('change 2');
       localStorage.language = 'ru';
       createKeyboard(localStorage.language);
     } else {
@@ -369,14 +390,14 @@ function keyPress(event) {
   }
 
   if (event.code === 'Tab') {
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
     event.preventDefault();
     textInput.value += '  ';
     return;
   }
 
-  if (event.key === 'CapsLock') {
+  if (event.code === 'CapsLock' || event.key === 'CapsLock') {
     event.preventDefault();
-    console.log(event.key);
     if (!capslockFlag) {
       if (localStorage.language === 'eng') createKeyboard('engShift');
       else createKeyboard('ruShift');
@@ -386,24 +407,37 @@ function keyPress(event) {
       else createKeyboard('ru');
       capslockFlag = false;
     }
+    document.querySelector(`[id="${event.code}"]`).classList.add('key-active');
+
     return;
   }
 
   if (event.key === 'Enter') {
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
     event.preventDefault();
     textInput.value += '\n';
     return;
   }
 
   if (event.key === ' ') {
+    console.log(event.code);
+    document.querySelector('#space').classList.add('key-active');
     textInput.value += ' ';
     return;
   }
 
+  console.log(`[id="${event.key}"]`);
+
+  document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+
   textInput.value += event.key;
 }
 
-function keyUp(event) {
+function keyUp() {
+  document.querySelectorAll('.key').forEach((element) => {
+    element.classList.remove('key-active');
+  });
+
   if (event.code === 'ShiftLeft') {
     event.preventDefault();
     shiftFlag = false;
@@ -430,4 +464,4 @@ createKeyboard(localStorage.language);
 
 document.addEventListener('keydown', keyPress);
 
-document.addEventListener('keyUp', keyUp);
+document.addEventListener('keyup', keyUp);
