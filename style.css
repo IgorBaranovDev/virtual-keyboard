@@ -51,6 +51,17 @@ body {
   background: url();
 }
 
+#ArrowDown {
+  background: url();
+}
+
+#ArrowRight {
+  background: url();
+}
+#ArrowLeft {
+  background: url();
+}
+
 .key:hover {
   opacity: 0.6;
   border-color: inherit;
