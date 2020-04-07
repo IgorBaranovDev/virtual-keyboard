@@ -37,7 +37,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   width: calc(100% / 15);
   border: 2px solid #312c2c;
-  border-radius: 10%;
+  border-radius: 10px;
   margin: 0.4rem;
   padding: 2%;
   font-size: 1em;
@@ -48,18 +48,43 @@ body {
 }
 
 #ArrowUp {
-  background: url();
+  position: relative;
+  width: calc(100% / 10);
+}
+
+#ArrowUp::after {
+  content: '▲';
 }
 
 #ArrowDown {
-  background: url();
+  position: relative;
+  width: calc(100% / 10);
+}
+
+#ArrowDown::after {
+  content: '▼';
 }
 
 #ArrowRight {
-  background: url();
+  position: relative;
+  width: calc(100% / 10);
 }
+
+#ArrowRight::after {
+  content: '►';
+}
+
 #ArrowLeft {
-  background: url();
+  position: relative;
+  width: calc(100% / 10);
+}
+
+#ArrowLeft::after {
+  content: '◄';
+}
+
+#space {
+  width: calc((100% / 15) * 8);
 }
 
 .key:hover {
