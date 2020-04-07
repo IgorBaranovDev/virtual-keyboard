@@ -424,6 +424,28 @@ function keyPress(event) {
   }
 
   if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    getCursorPosition(textInput);
+    return;
+  }
+
+  if (event.key === 'ArrowRight') {
+    event.preventDefault();
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    getCursorPosition(textInput);
+    return;
+  }
+
+  if (event.key === 'ArrowLeft') {
+    event.preventDefault();
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    getCursorPosition(textInput);
+    return;
+  }
+
+  if (event.key === 'ArrowDown') {
+    event.preventDefault();
     document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
     getCursorPosition(textInput);
     return;
