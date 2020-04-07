@@ -76,3 +76,8 @@ body {
     opacity: 0.3;
   }
 }
+
+.textarea,
+[contenteditable] {
+  caret-color: #271616;
+}

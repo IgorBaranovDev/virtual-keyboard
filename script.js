@@ -3,6 +3,7 @@ const textInput = document.createElement('textarea');
 let shiftFlag = false;
 let altLeftFlag = false;
 let capslockFlag = false;
+let CaretPos = 0;
 
 textInput.classList.add('textarea');
 body.appendChild(textInput);
@@ -313,7 +314,6 @@ function createKeyboard(language) {
     lineOfkeys.classList.add('lineOfkeys');
     keyboard.appendChild(lineOfkeys);
     element.forEach((key) => {
-      // console.log(key);
       lineOfkeys.append(createButtons(key));
     });
   });
@@ -360,7 +360,6 @@ function keyPress(event) {
     event.preventDefault();
 
     if (localStorage.language === 'eng') {
-      console.log('change');
       localStorage.language = 'ru';
       createKeyboard(localStorage.language);
     } else {
@@ -380,7 +379,6 @@ function keyPress(event) {
     event.preventDefault();
 
     if (localStorage.language === 'eng') {
-      console.log('change 2');
       localStorage.language = 'ru';
       createKeyboard(localStorage.language);
     } else {
@@ -420,17 +418,32 @@ function keyPress(event) {
   }
 
   if (event.key === ' ') {
-    console.log(event.code);
     document.querySelector('#space').classList.add('key-active');
     textInput.value += ' ';
     return;
   }
 
-  console.log(`[id="${event.key}"]`);
+  if (event.key === 'ArrowUp') {
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    getCursorPosition(textInput);
+    return;
+  }
 
   document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
 
   textInput.value += event.key;
+}
+
+function getCursorPosition(ctrl) {
+  if (document.selection) {
+    ctrl.focus();
+    var Sel = document.selection.createRange();
+    Sel.moveStart('character', -ctrl.value.length);
+    CaretPos = Sel.text.length;
+  } else if (ctrl.selectionStart || ctrl.selectionStart == '0') {
+    CaretPos = ctrl.selectionStart;
+  }
+  return CaretPos;
 }
 
 function keyUp() {
