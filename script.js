@@ -1,5 +1,8 @@
 const body = document.querySelector('body');
 const textInput = document.createElement('textarea');
+let shiftFlag = false;
+let altLeftFlag = false;
+let capslockFlag = false;
 
 textInput.classList.add('textarea');
 body.appendChild(textInput);
@@ -20,10 +23,10 @@ const keys = {
       '0',
       '-',
       '=',
-      'backspace',
+      'Backspace',
     ],
     [
-      'tab',
+      'Tab',
       'q',
       'w',
       'e',
@@ -37,10 +40,10 @@ const keys = {
       '[',
       ']',
       '\\',
-      'delete',
+      'Delete',
     ],
     [
-      'capslock',
+      'CapsLock',
       'a',
       's',
       'd',
@@ -52,10 +55,10 @@ const keys = {
       'l',
       ';',
       "'",
-      'enter',
+      'Enter',
     ],
     [
-      'shift',
+      'Shift',
       'z',
       'x',
       'c',
@@ -66,19 +69,19 @@ const keys = {
       ',',
       '.',
       '/',
-      'arrowUp',
-      'shift',
+      'ArrowUp',
+      'Shift',
     ],
     [
-      'ctrl',
-      'win',
-      'alt',
-      'space',
-      'alt',
-      'ctrl',
-      'arrowLeft',
-      'arrowDown',
-      'arrowRight',
+      'Ctrl',
+      'Win',
+      'Alt',
+      'Space',
+      'Alt',
+      'Ctrl',
+      'ArrowLeft',
+      'ArrowDown',
+      'ArrowRight',
     ],
   ],
   engShift: [
@@ -96,10 +99,10 @@ const keys = {
       ')',
       '_',
       '+',
-      'bacspace',
+      'Bacspace',
     ],
     [
-      'tab',
+      'Tab',
       'Q',
       'W',
       'E',
@@ -113,10 +116,10 @@ const keys = {
       '{',
       '}',
       '|',
-      'delete',
+      'Delete',
     ],
     [
-      'capslock',
+      'CapsLock',
       'A',
       'S',
       'D',
@@ -128,10 +131,10 @@ const keys = {
       'L',
       ':',
       '"',
-      'enter',
+      'Enter',
     ],
     [
-      'shift',
+      'Shift',
       'Z',
       'X',
       'C',
@@ -142,19 +145,19 @@ const keys = {
       '<',
       '>',
       '?',
-      'arrowUp',
-      'shift',
+      'ArrowUp',
+      'Shift',
     ],
     [
-      'ctrl',
-      'win',
-      'alt',
-      'space',
-      'alt',
-      'ctrl',
-      'arrowLeft',
-      'arrowDown',
-      'arrowRight',
+      'Ctrl',
+      'Win',
+      'Alt',
+      'Space',
+      'Alt',
+      'Ctrl',
+      'ArrowLeft',
+      'ArrowDown',
+      'ArrowRight',
     ],
   ],
   ru: [
@@ -172,10 +175,10 @@ const keys = {
       '0',
       '-',
       '=',
-      'backspace',
+      'Backspace',
     ],
     [
-      'tab',
+      'Tab',
       'й',
       'ц',
       'у',
@@ -189,10 +192,10 @@ const keys = {
       'х',
       'ъ',
       '\\',
-      'delete',
+      'Delete',
     ],
     [
-      'capslock',
+      'CapsLock',
       'ф',
       'ы',
       'в',
@@ -204,10 +207,10 @@ const keys = {
       'д',
       'ж',
       'э',
-      'enter',
+      'Enter',
     ],
     [
-      'shift',
+      'Shift',
       'я',
       'ч',
       'с',
@@ -218,25 +221,25 @@ const keys = {
       'б',
       'ю',
       '.',
-      'arrowUp',
-      'shift',
+      'ArrowUp',
+      'Shift',
     ],
     [
-      'ctrl',
-      'win',
-      'alt',
-      'space',
-      'alt',
-      'ctrl',
-      'arrowLeft',
-      'arrowDown',
-      'arrowRight',
+      'Ctrl',
+      'Win',
+      'Alt',
+      'Space',
+      'Alt',
+      'Ctrl',
+      'ArrowLeft',
+      'ArrowDown',
+      'ArrowRight',
     ],
   ],
   ruShift: [
-    ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '+', 'backspase'],
+    ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '+', 'Backspase'],
     [
-      'tab',
+      'Tab',
       'Й',
       'Ц',
       'У',
@@ -250,10 +253,10 @@ const keys = {
       'Х',
       'Ъ',
       '/',
-      'delete',
+      'Delete',
     ],
     [
-      'capslock',
+      'CapsLock',
       'Ф',
       'Ы',
       'В',
@@ -265,10 +268,10 @@ const keys = {
       'Д',
       'Ж',
       'Э',
-      'enter',
+      'Enter',
     ],
     [
-      'shift',
+      'Shift',
       'Я',
       'Ч',
       'С',
@@ -279,19 +282,19 @@ const keys = {
       'Б',
       'Ю',
       ',',
-      'arrowUp',
-      'shift',
+      'ArrowUp',
+      'Shift',
     ],
     [
-      'ctrl',
-      'win',
-      'alt',
-      'space',
-      'alt',
-      'ctrl',
-      'arrowLeft',
-      'arrowDown',
-      'arrowRight',
+      'Ctrl',
+      'Win',
+      'Alt',
+      'Space',
+      'Alt',
+      'Ctrl',
+      'ArrowLeft',
+      'ArrowDown',
+      'ArrowRight',
     ],
   ],
 };
@@ -320,39 +323,98 @@ function createKeyboard(language) {
 function createButtons(key) {
   const button = document.createElement('div');
   button.classList.add('key');
+  button.id = key;
   button.innerText = key;
+  button.addEventListener('mousedown', (event) => {
+    event.key = event.target.id;
+    keyPress(event);
+  });
+  button.addEventListener('mouseup', (event) => {
+    event.key = event.target.id;
+    keyUp(event);
+  });
   return button;
 }
-
-let shiftFlag = false;
-let altLeft = false;
 
 function keyPress(event) {
   if (event.code === 'ShiftLeft') {
     shiftFlag = true;
+    return;
   }
 
-  if (event.code === 'AltLeft') {
-    altLeft = true;
-  }
-
-  if (
-    (event.code === 'AltLeft' && shiftFlag === true) ||
-    (event.code === 'ShiftLeft' && altLeft === true)
-  ) {
-    console.log('ru');
+  if (event.code === 'AltLeft' && shiftFlag === true) {
     if (localStorage.language === 'eng') {
+      console.log('change');
       localStorage.language = 'ru';
-
       createKeyboard(localStorage.language);
     } else {
       localStorage.language = 'eng';
-
       createKeyboard(localStorage.language);
     }
   }
+
+  if (event.code === 'AltLeft') {
+    altLeftFlag = true;
+    return;
+  }
+
+  if (event.code === 'ShiftLeft' && altLeftFlag === true) {
+    if (localStorage.language === 'eng') {
+      localStorage.language = 'ru';
+      createKeyboard(localStorage.language);
+    } else {
+      localStorage.language = 'eng';
+      createKeyboard(localStorage.language);
+    }
+  }
+
+  if (event.code === 'Tab') {
+    event.preventDefault();
+    textInput.value += '  ';
+    return;
+  }
+
+  if (event.key === 'CapsLock') {
+    event.preventDefault();
+    console.log(event.key);
+    if (!capslockFlag) {
+      if (localStorage.language === 'eng') createKeyboard('engShift');
+      else createKeyboard('ruShift');
+      capslockFlag = true;
+    } else {
+      if (localStorage.language === 'eng') createKeyboard('eng');
+      else createKeyboard('ru');
+      capslockFlag = false;
+    }
+    return;
+  }
+
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    textInput.value += '\n';
+    return;
+  }
+
+  if (event.key === ' ') {
+    textInput.value += ' ';
+    return;
+  }
+
+  textInput.value += event.key;
 }
+
 function keyUp(event) {
+  if (event.code === 'ShiftLeft') {
+    event.preventDefault();
+    shiftFlag = false;
+    return;
+  }
+  if (event.code === 'AltLeft') {
+    event.preventDefault();
+    altLeftFlag = false;
+    return;
+  }
+
   if (event.key === 'Shift' && event.key === 'Alt') {
     if (localStorage.language === 'eng') {
       localStorage.language = 'ru';
