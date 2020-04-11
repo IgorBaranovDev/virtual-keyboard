@@ -426,6 +426,7 @@ function keyPress(event) {
   if (event.key === 'ArrowUp') {
     event.preventDefault();
     document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    textInput.value += '▲';
     getCursorPosition(textInput);
     return;
   }
@@ -433,6 +434,7 @@ function keyPress(event) {
   if (event.key === 'ArrowRight') {
     event.preventDefault();
     document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    textInput.value +=  '►';
     getCursorPosition(textInput);
     return;
   }
@@ -440,6 +442,7 @@ function keyPress(event) {
   if (event.key === 'ArrowLeft') {
     event.preventDefault();
     document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    textInput.value +=  '◄';
     getCursorPosition(textInput);
     return;
   }
@@ -447,6 +450,15 @@ function keyPress(event) {
   if (event.key === 'ArrowDown') {
     event.preventDefault();
     document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    textInput.value += '\n';
+    getCursorPosition(textInput);
+    return;
+  }
+   if (event.key === 'Delete') {
+    event.preventDefault();
+    document.querySelector(`[id="${event.key}"]`).classList.add('key-active');
+    console.log(typeof textInput.value);
+    textInput.value = textInput.value.slice(0, -1);
     getCursorPosition(textInput);
     return;
   }
